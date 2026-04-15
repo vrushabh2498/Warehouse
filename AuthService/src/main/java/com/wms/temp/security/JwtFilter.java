@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     
     public JwtFilter(JwtUtil jwtUtil) {
     	this.jwtUtil=jwtUtil;
-    	System.out.println("kk");
+
     }
 
     @Override
