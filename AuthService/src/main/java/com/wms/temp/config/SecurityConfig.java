@@ -16,6 +16,7 @@ import com.wms.temp.security.JwtFilter;
 @Configuration
 public class SecurityConfig {
 	
+
 	private JwtFilter jwtFilter;
 	public SecurityConfig(JwtFilter jwtFilter) {
 	this.jwtFilter=jwtFilter;
