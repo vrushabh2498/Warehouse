@@ -2,9 +2,12 @@ package com.wms.temp.security;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -16,6 +19,8 @@ public class JwtUtil {
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
     
     public String generateToken(String email) {
+    	Map<String, Object> claims = new HashMap<>();
+    	claims.put("role", "ROLE_ADMIN");
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
@@ -53,6 +58,25 @@ public class JwtUtil {
 		return expiration.before(new Date());
 	}
 
+
+	
+	public String extractRole(String token) {
+	    return extractAllClaims(token).get("role", String.class);
+	}
+
+
+	private Claims extractAllClaims(String token) {
+		
+		 Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+
+		    return Jwts.parserBuilder()
+		            .setSigningKey(key)
+		            .build()
+		            .parseClaimsJws(token)
+		            .getBody();
+	}
+
+	
 	
 
 }
